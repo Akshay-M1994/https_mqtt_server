@@ -1,0 +1,12 @@
+{
+    "client": "Thunder Client",
+    "environmentName": "Modbus",
+    "dateExported": "2024-02-20T08:45:08.519Z",
+    "version": "1.0",
+    "variables": [
+        {
+            "name": "flask_server",
+            "value": "http://127.0.0.1:4000/"
+        }
+    ]
+}
