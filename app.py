@@ -13,12 +13,12 @@ def help():
                 [
                     {
                      "routeName":"help",
-                     "requestURL":"http://serverAddress:serverPort/profileList",
-                     "description":"Returns a list of profiles of different modbus devices current present on the modbus"
+                     "requestURL":"http://serverAddress:serverPort/help",
+                     "description":"Returns a list of routes that can be used to access different endpoints"
                     },
                     {
                      "routeName":"getAPIs",
-                     "requestURL":"http://serverAddress:serverPort/getAPIs",
+                     "requestURL":"http://serverAddress:serverPort/getCommands",
                      "Request Body(Json)":{"deviceType":"DeviceType"},
                      "description":"Returns a list of commands that can be sent to a particular modbus device"
                     },
@@ -28,8 +28,8 @@ def help():
                      "description":"Returns a list of profiles of different modbus devices current present on the modbus"
                     },
                     {
-                     "routeName":"profileList",
-                     "requestURL":"http://serverAddress:serverPort/profileList",
+                     "routeName":"sendcmd",
+                     "requestURL":"http://serverAddress:serverPort/sendcmd",
                      "description":"Returns a list of profiles of different modbus devices current present on the modbus"
                     }
                 ]

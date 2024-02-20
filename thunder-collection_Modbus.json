@@ -1,0 +1,49 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Modbus",
+    "dateExported": "2024-02-20T08:42:14.267Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "1c83ee07-3dd1-46ef-8fbb-1364a5ae9545",
+            "colId": "8c1b67ea-b9db-44e4-8361-fa405404dcd1",
+            "containerId": "",
+            "name": "help",
+            "url": "{{flask_server}}/help",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-02-20T06:38:31.820Z",
+            "modified": "2024-02-20T06:38:54.904Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "831ebf46-fc57-4884-9477-a92b3352c959",
+            "colId": "8c1b67ea-b9db-44e4-8361-fa405404dcd1",
+            "containerId": "",
+            "name": "profileList",
+            "url": "",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-20T06:41:46.470Z",
+            "modified": "2024-02-20T06:41:46.470Z",
+            "headers": []
+        },
+        {
+            "_id": "fc82f257-4cb2-4dd4-8316-30c053983a89",
+            "colId": "8c1b67ea-b9db-44e4-8361-fa405404dcd1",
+            "containerId": "",
+            "name": "getAPIs",
+            "url": "{{flask_server}}/getAPIs",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-02-20T06:44:54.733Z",
+            "modified": "2024-02-20T06:54:05.094Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
