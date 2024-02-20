@@ -1,0 +1,11 @@
+{
+    "installedDevices":
+    [
+        {
+            "deviceModel":"DME111",
+            "devDescription": "AC Modbus Power Meter",
+            "devId":"af9012a1",
+            "devAdd":1
+        }
+    ]
+}

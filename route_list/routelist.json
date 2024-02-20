@@ -1,0 +1,26 @@
+{"routeList":
+                [
+                    {
+                     "routeName":"help",
+                     "description":"Returns a list of routes that can be used to access different endpoints",
+                     "requestURL":"http://serverAddress:serverPort/help"
+                    },
+                    {
+                     "routeName":"getCommands",
+                     "description":"Returns a list of commands that can be sent to a particular modbus device",
+                     "requestURL":"http://serverAddress:serverPort/getCommands",
+                     "Request Body(Json)":{"deviceModel":"DeviceType"}
+                    },
+                    {
+                     "routeName":"profileList",
+                     "description":"Returns a list of profiles of different modbus devices currently present on the modbus",
+                     "requestURL":"http://serverAddress:serverPort/profileList"
+                    },
+                    {
+                     "routeName":"sendcmd",
+                     "description":"Used to send commands to a modbus device",
+                     "requestURL":"http://serverAddress:serverPort/sendcmd",
+                     "Request Body(Json)":{"cmdName":"cmd", "devId":"30f1ae2f", "regData":[]}
+                    }
+                ]
+ }
