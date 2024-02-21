@@ -1,4 +1,4 @@
-from   flask    import Blueprint
+from   flask    import Blueprint,request
 from   os.path  import exists
 import json
 import os
@@ -7,31 +7,35 @@ import os
 getCommands_bp = Blueprint('getCommands_bp', __name__, template_folder='templates',static_folder='static')
 
 @getCommands_bp.route("/getCommands")
-def gethelp():
+def getCommandList():
 
-    #This should be in a json file -> File path must be an environment variable
-    routeListFilePath = os.getenv('ROUTE_LIST_FILE_PATH')
+     #Retrieve device profile from request
+    deviceModel = request.json
+
+    #Open device profile
+    deviceProfileFilePath = os.getenv('DEVICE_PROFILES_FOLDER_PATH')+'/'+deviceModel["deviceModel"]+".json"
 
     #Check if file exists first
-    if not exists(routeListFilePath):
-        response = {"routeList": "","result": "Error route list not found!"}
+    if not exists(deviceProfileFilePath):
+        response = {"commandList": "","result": "Device Profile File Not Found!"}
         return json.dumps(response)
 
     try:
         #Open file and create dictionary containing route lists from json file
-        routeListFile = open(routeListFilePath)
+        deviceProfileFile = open(deviceProfileFilePath)
     except:
-        #Failed to open route list file
-        response = {"routeList": "","result": "Error route list file failed to open!"}
+        #Failed to open device profile file
+        response = {"commandList": "","result": "Device profile file failed to open!"}
         return json.dumps(response)
 
     try:
-        #create routelist dictionary
-        routeListDictionary = json.load(routeListFile)
+        #create device profile dictionary
+        deviceProfileDictionary = json.load(deviceProfileFile)
+        response = deviceProfileDictionary["cmdList"]
     except:
         #Failed to create route list dictionary
-        response = {"routeList": "","result": "Failed to create route list dictionary!"}
-        return json.dumps(response)
+        response = {"commandList": "","result": "Failed to create device profile list dictionary!"}
+        return json.dumps(deviceProfileDictionary["cmdList"])
     
-
-    return json.dumps(routeListDictionary)
+    
+    return json.dumps(response)
