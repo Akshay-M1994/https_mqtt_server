@@ -27,7 +27,7 @@ app.config['MQTT_BROKER_URL'] = '192.168.1.100'     # IP Address of MQTT broker
 app.config['MQTT_BROKER_PORT'] = 1884               # Set Port used for MQTT comms.
 app.config['MQTT_USERNAME'] = ''                    # Set this item when you need to verify username and password
 app.config['MQTT_PASSWORD'] = ''                    # Set this item when you need to verify username and password
-app.config['MQTT_KEEPALIVE'] = 60                   # Set KeepAlive time in seconds
+app.config['MQTT_KEEPALIVE'] = 5                   # Set KeepAlive time in seconds
 app.config['MQTT_TLS_ENABLED'] = False              # If your broker supports TLS, set it True
 
 
@@ -35,9 +35,10 @@ app.config['MQTT_TLS_ENABLED'] = False              # If your broker supports TL
 mqtt_client = Mqtt(app)
 
 msgRxd = False
+mqttJsonMsg = dict()
 
 @app.route("/sendCommand",methods=['POST'])
-def sendCmd():
+def sendCommand():
 
     #Retrieve command details
     json_command_parameters = request.json
@@ -97,22 +98,21 @@ def sendCmd():
 
     if(msgRxd == True):
         msgRxd = False
-        return "None"
+        return json.dumps(mqttJsonMsg)
 
 
-    #return json.dumps(mqtt_command)
 
 
 
 @mqtt_client.on_disconnect()
-def on_disconnect(client, userdata, rc):
+def handle_disconnect():
     print("Disconnected!")
 
 @mqtt_client.on_connect()
 def handle_connect(client, userdata, flags, rc):
    if rc == 0:
        print('Connected successfully')
-       mqtt_client.subscribe(os.getenv('MODBUS_RESP_TOPIC')) # subscribe topic
+       mqtt_client.subscribe(os.getenv('MODBUS_RESP_TOPIC')) 
    else:
        print('Bad connection. Code:', rc)
 
@@ -121,9 +121,10 @@ def handle_connect(client, userdata, flags, rc):
 def handle_mqtt_message(client, userdata, message):
    data = dict(topic=message.topic,payload=message.payload.decode())
    print('Received message on topic: {topic} with payload: {payload}'.format(**data))
+   global mqttJsonMsg
+   mqttJsonMsg = json.loads(message.payload)
    global msgRxd
    msgRxd = True
-
 
 if __name__ == "__main__":
     app.run(os.getenv('FLASK_HTTP_SERVER'), int(os.getenv('FLASK_HTTP_PORT', 4000)), debug=False)
