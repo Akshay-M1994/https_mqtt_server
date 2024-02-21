@@ -60,9 +60,7 @@ def getCommandList():
     deviceModel = request.json
 
     #Open device profile
-    deviceProfileFilePath = os.getenv('DEVICE_PROFILES_PATH')+'/'+deviceModel["deviceModel"]+".json"
-
-    print(deviceProfileFilePath)
+    deviceProfileFilePath = os.getenv('DEVICE_PROFILES_FOLDER_PATH')+'/'+deviceModel["deviceModel"]+".json"
 
     #Check if file exists first
     if not exists(deviceProfileFilePath):
@@ -93,7 +91,7 @@ def getCommandList():
 def getDeviceProfileList():
 
     #Retrieve all device types current installed on bus -> File names must be "DeviceModel.json" and present in device profiles folder
-    deviceProfileList = os.listdir(os.getenv('DEVICE_PROFILES_PATH'))
+    deviceProfileList = os.listdir(os.getenv('DEVICE_PROFILES_FOLDER_PATH'))
 
     #Empty Device Profile dictionary
     response ={"deviceProfiles":[]}
@@ -103,7 +101,7 @@ def getDeviceProfileList():
         
         try:
             #Open json file->path as environment variable
-            deviceProfileFile = open(os.getenv('DEVICE_PROFILES_PATH')+'/'+device)
+            deviceProfileFile = open(os.getenv('DEVICE_PROFILES_FOLDER_PATH')+'/'+device)
 
             #Convert to dictionary
             deviceProfileDict = json.load(deviceProfileFile)
