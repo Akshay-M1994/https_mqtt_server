@@ -4,7 +4,7 @@ import json
 import os
 
 # Defining a blueprint
-getDeviceModelList_bp = Blueprint('getDeviceModelLis_bp', __name__, template_folder='templates',static_folder='static')
+getDeviceModelList_bp = Blueprint('getDeviceModelList_bp', __name__, template_folder='templates',static_folder='static')
 
 @getDeviceModelList_bp.route("/getDeviceModelList")
 def getDeviceProfileList():
