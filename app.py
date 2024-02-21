@@ -23,6 +23,17 @@ load_dotenv()
 
 app = Flask(__name__)
 
+app.config['MQTT_BROKER_URL'] = '192.168.1.100'     # IP Address of MQTT broker
+app.config['MQTT_BROKER_PORT'] = 1884               # Set Port used for MQTT comms.
+app.config['MQTT_USERNAME'] = ''                    # Set this item when you need to verify username and password
+app.config['MQTT_PASSWORD'] = ''                    # Set this item when you need to verify username and password
+app.config['MQTT_KEEPALIVE'] = 5                    # Set KeepAlive time in seconds
+app.config['MQTT_TLS_ENABLED'] = False              # If your broker supports TLS, set it True
+
+mqtt_client = Mqtt(app)
+
+msgRxd = False
+
 @app.route("/help")
 def gethelp():
 
@@ -117,7 +128,7 @@ def getDeviceProfileList():
     return json.dumps(response)
 
 
-@app.route("/sendCmd")
+@app.route("/sendCmd",methods=['POST'])
 def sendCmd():
 
     #Retrieve command details
@@ -168,10 +179,41 @@ def sendCmd():
             mqtt_command["cmdName"] = json_command_parameters["cmdName"]
             mqtt_command["regData"] = json_command_parameters["regData"]
             mqtt_command["uuid"] = secrets.token_hex(4)
+            mqtt_command["devProfile"] = device["deviceModel"]
             mqtt_command["devAdd"] = device["devAdd"]
             break
 
-    return json.dumps(mqtt_command)
+    publish_result = mqtt_client.publish(os.getenv('MODBUS_CMD_TOPIC'), json.dumps(mqtt_command))
+
+    global msgRxd
+
+    if(msgRxd == True):
+        msgRxd = False
+        return "None"
+
+
+    #return json.dumps(mqtt_command)
     
+
+@mqtt_client.on_connect()
+def handle_connect(client, userdata, flags, rc):
+   if rc == 0:
+       print('Connected successfully')
+       mqtt_client.subscribe(os.getenv('MODBUS_RESP_TOPIC')) # subscribe topic
+   else:
+       print('Bad connection. Code:', rc)
+
+
+@mqtt_client.on_message()
+def handle_mqtt_message(client, userdata, message):
+   data = dict(topic=message.topic,payload=message.payload.decode())
+   print('Received message on topic: {topic} with payload: {payload}'.format(**data))
+   global msgRxd
+   msgRxd = True
+
 if __name__ == "__main__":
-    app.run(os.getenv('FLASK_HTTP_SERVER'), int(os.getenv('FLASK_HTTP_PORT', 4000)), debug=True)
+    app.run(os.getenv('FLASK_HTTP_SERVER'), int(os.getenv('FLASK_HTTP_PORT', 4000)), debug=False)
+
+
+
+
