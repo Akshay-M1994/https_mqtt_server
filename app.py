@@ -4,10 +4,11 @@ from   flask       import Flask, request
 from   dotenv      import load_dotenv
 from   enum        import Enum
 from   mqtt2modbus import mqtt2Modbus_ErrorStatus
-from   routes      import help,getCommands,getDeviceModelList
+from   routes      import help,getCommands,getDeviceModelList,sendCommand
 import os,binascii
 import secrets
 import json
+import sys
 
 #Load environment variable file
 load_dotenv()
@@ -19,20 +20,23 @@ app = Flask(__name__)
 app.register_blueprint(help.help_bp)
 app.register_blueprint(getCommands.getCommands_bp)
 app.register_blueprint(getDeviceModelList.getDeviceModelList_bp)
+#app.register_blueprint(sendCommand.sendCommand_bp)
+
 
 app.config['MQTT_BROKER_URL'] = '192.168.1.100'     # IP Address of MQTT broker
 app.config['MQTT_BROKER_PORT'] = 1884               # Set Port used for MQTT comms.
 app.config['MQTT_USERNAME'] = ''                    # Set this item when you need to verify username and password
 app.config['MQTT_PASSWORD'] = ''                    # Set this item when you need to verify username and password
-app.config['MQTT_KEEPALIVE'] = 5                    # Set KeepAlive time in seconds
+app.config['MQTT_KEEPALIVE'] = 60                   # Set KeepAlive time in seconds
 app.config['MQTT_TLS_ENABLED'] = False              # If your broker supports TLS, set it True
+
 
 #Create flask mqtt client instance
 mqtt_client = Mqtt(app)
 
 msgRxd = False
 
-@app.route("/sendCmd",methods=['POST'])
+@app.route("/sendCommand",methods=['POST'])
 def sendCmd():
 
     #Retrieve command details
@@ -83,7 +87,7 @@ def sendCmd():
             mqtt_command["cmdName"] = json_command_parameters["cmdName"]
             mqtt_command["regData"] = json_command_parameters["regData"]
             mqtt_command["uuid"] = secrets.token_hex(4)
-            mqtt_command["deviceModel"] = device["deviceModel"]
+            mqtt_command["devProfile"] = device["deviceModel"]
             mqtt_command["devAdd"] = device["devAdd"]
             break
 
@@ -97,7 +101,12 @@ def sendCmd():
 
 
     #return json.dumps(mqtt_command)
-    
+
+
+
+@mqtt_client.on_disconnect()
+def on_disconnect(client, userdata, rc):
+    print("Disconnected!")
 
 @mqtt_client.on_connect()
 def handle_connect(client, userdata, flags, rc):
@@ -114,6 +123,7 @@ def handle_mqtt_message(client, userdata, message):
    print('Received message on topic: {topic} with payload: {payload}'.format(**data))
    global msgRxd
    msgRxd = True
+
 
 if __name__ == "__main__":
     app.run(os.getenv('FLASK_HTTP_SERVER'), int(os.getenv('FLASK_HTTP_PORT', 4000)), debug=False)
