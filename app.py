@@ -3,20 +3,10 @@ from   os.path    import exists
 from   flask      import Flask, request
 from   dotenv     import load_dotenv
 from   enum       import Enum
+from mqtt2modbus import mqtt2Modbus_ErrorStatus
 import os,binascii
 import secrets
 import json
-
-class mqtt2Modbus_ErrorStatus(Enum):
-    INVALID_CMD           = 0
-    INVALID_DEV_ADDRESS   = 1
-    MISSING_PARAMETER     = 2
-    INVALID_PARAMETER     = 3
-    MODBUS_IO_FAILED      = 4
-    DEVICE_PROFILE_ABSENT = 5
-    GENERAL_ERROR         = 6
-    RESULT_UNKNOWN        = 7
-    OK                    = 8
 
 #Load environment variable file
 load_dotenv()
