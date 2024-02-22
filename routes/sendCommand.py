@@ -19,7 +19,6 @@ def sendCommand():
                         "cmdName":"", 
                         "uuid":"",
                         "devId":"",
-                        "devProfile":"",
                         "devAdd":0,
                         "regData":[],
                         "result":mqtt2Modbus_ErrorStatus.RESULT_UNKNOWN.value
@@ -64,19 +63,11 @@ def sendCommand():
             mqtt_command["devAdd"] = device["devAdd"]
             break
 
+    #Publish request using mqtt client created in app.py
+    import app
+    publish_result = app.mqtt_client.publish(os.getenv('MODBUS_CMD_TOPIC'), json.dumps(mqtt_command))
 
-    from   app         import sendMqttCommand
-    #Publish command
-    sendMqttCommand(json.dumps(mqtt_command))
-
-    return "None"
-
-
-    global msgRxd
-
-    if(msgRxd == True):
-        msgRxd = False
-        return "None"
-
-
-    #return json.dumps(mqtt_command)
+    #Wait for message to be received before returning response
+    if(app.msgRxd == True):
+        app.msgRxd = False
+        return json.dumps(app.mqttJsonMsg)
