@@ -1,6 +1,9 @@
 from   flask       import Blueprint,request
 from   os.path     import exists
 from   mqtt2modbus import mqtt2Modbus_ErrorStatus
+from   mqtt2modbus import modbusMqttMsg
+from   installed_devices import installed_devices
+from   device_profiles import device_profiles
 import json
 import os
 import secrets
@@ -15,15 +18,8 @@ def sendCommand():
     json_command_parameters = request.json
 
     #Empty json object -> will be populated and forwarded to mqtt_modbus_bridge
-    mqtt_command = {
-                        "cmdName":"", 
-                        "uuid":"",
-                        "devId":"",
-                        "devAdd":0,
-                        "regData":[],
-                        "result":mqtt2Modbus_ErrorStatus.RESULT_UNKNOWN.value
-                   }
-    
+    mqtt_command = modbusMqttMsg.blankMsg()
+
     #Ensure that json command parameters are valid->refer to the JSON body for the "sendCmd" API URL
     if not "cmdName" in json_command_parameters:
         print("\"cmdName\" key was not found")
@@ -37,31 +33,34 @@ def sendCommand():
         print("\"devId\" key was not found")
         return "devId key was not found in json object"
 
-    #Check if file exists first->find better way to handle this
-    if not exists("installed_devices/installed_devices.json"):
-        return "installed_devices.json file is missing!"
+    device = installed_devices.isDeviceInstalled(json_command_parameters["devId"])
+    
+    if(device != None):
 
-    try:
-        #Check if device is installed
-        installedDevicesFile = open(os.getenv('INSTALLED_DEVICES_FILE_PATH'))
-    except:
-        return "failed to open installed_devices.json"
-    
-    try:
-        #Convert json file to python dictionary
-        installedDevicesDict = json.load(installedDevicesFile)
-    except:
-        return "failed to convert json file to python dictionary"
-    
-    for device in installedDevicesDict["installedDevices"]:
-        if device["devId"] == json_command_parameters["devId"]:
-            mqtt_command["devId"] = json_command_parameters["devId"]
-            mqtt_command["cmdName"] = json_command_parameters["cmdName"]
-            mqtt_command["regData"] = json_command_parameters["regData"]
-            mqtt_command["uuid"] = secrets.token_hex(4)
-            mqtt_command["devProfile"] = device["deviceModel"]
-            mqtt_command["devAdd"] = device["devAdd"]
-            break
+        deviceProfile = device_profiles.isDeviceProfilePresent(device["deviceModel"])
+
+        if(deviceProfile != None):
+
+            for cmd in deviceProfile["cmdList"]:
+                if cmd["cmdName"] == json_command_parameters["cmdName"]:
+        
+                    mqtt_command = modbusMqttMsg.CreateMsg(
+                                                            cmd["cmdName"],
+                                                            secrets.token_hex(4),
+                                                            device["devId"],
+                                                            device["deviceModel"],
+                                                            cmd["modfunc"],
+                                                            device["devAdd"],
+                                                            cmd["regAdd"],
+                                                            cmd["regCount"],
+                                                            json_command_parameters["regData"],
+                                                            mqtt2Modbus_ErrorStatus.RESULT_UNKNOWN.value
+                                                          )
+                    break
+        else:
+            return "Device Profile Not Found!"
+    else:
+        return "Device Not Installed!"
 
     #Publish request using mqtt client created in app.py
     import app
@@ -71,3 +70,6 @@ def sendCommand():
     if(app.msgRxd == True):
         app.msgRxd = False
         return json.dumps(app.mqttJsonMsg)
+    
+    return "None"
+

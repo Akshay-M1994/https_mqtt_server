@@ -1,0 +1,22 @@
+{
+    "deviceModel":"Relay_1CH_RTU",
+    "devDescription": "Single Channel Modbus RTU Relay",
+    "cmdList": [
+      {
+        "cmdName": "RelayOn",
+        "modfunc": 5,
+        "regAdd": 0,
+        "regCount": 1,
+        "regData": 1,
+        "cmdType": "W"
+      },
+      {
+        "cmdName": "RelayOff",
+        "modfunc": 5,
+        "regAdd": 0,
+        "regCount": 1,
+        "regData": 0,
+        "cmdType": "W"
+      }
+    ]
+  }
