@@ -17,6 +17,14 @@
         "regCount": 1,
         "regData": 0,
         "cmdType": "W"
+      },
+      {
+        "cmdName": "ChangeAddress",
+        "modfunc": 16,
+        "regAdd": 0,
+        "regCount": 1,
+        "regData": 0,
+        "cmdType": "W"
       }
     ]
   }
