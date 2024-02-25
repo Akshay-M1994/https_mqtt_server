@@ -7,6 +7,7 @@ from   device_profiles import device_profiles
 import json
 import os
 import secrets
+import time
 
 # Defining a blueprint
 sendCommand_bp = Blueprint('sendCommand_bp', __name__, template_folder='templates',static_folder='static')
@@ -65,6 +66,10 @@ def sendCommand():
     #Publish request using mqtt client created in app.py
     import app
     publish_result = app.mqtt_client.publish(os.getenv('MODBUS_CMD_TOPIC'), json.dumps(mqtt_command))
+
+    #Wait for replay to be received from mqtt_modbus_bridge
+    while(app.msgRxd != True):
+        time.sleep(0.005)
 
     #Wait for message to be received before returning response
     if(app.msgRxd == True):
