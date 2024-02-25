@@ -53,7 +53,7 @@ def sendCommand():
                                                             device["devAdd"],
                                                             cmd["regAdd"],
                                                             cmd["regCount"],
-                                                            json_command_parameters["regData"],
+                                                            json_command_parameters["regData"] if cmd["cmdType"] == "W" else cmd["regData"],
                                                             mqtt2Modbus_ErrorStatus.RESULT_UNKNOWN.value
                                                           )
                     break

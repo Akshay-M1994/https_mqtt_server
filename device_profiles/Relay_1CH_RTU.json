@@ -8,7 +8,7 @@
         "regAdd": 0,
         "regCount": 1,
         "regData": 1,
-        "cmdType": "W"
+        "cmdType": "WF"
       },
       {
         "cmdName": "RelayOff",
@@ -16,7 +16,15 @@
         "regAdd": 0,
         "regCount": 1,
         "regData": 0,
-        "cmdType": "W"
+        "cmdType": "WF"
+      },
+      {
+        "cmdName": "ReadRelayState",
+        "modfunc": 1,
+        "regAdd": 0,
+        "regCount": 1,
+        "regData": 0,
+        "cmdType": "R"
       },
       {
         "cmdName": "ChangeAddress",
