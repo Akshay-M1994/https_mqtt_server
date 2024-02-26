@@ -1,9 +1,9 @@
-from   flask       import Blueprint,request
-from   os.path     import exists
-from   mqtt2modbus import mqtt2Modbus_ErrorStatus
-from   mqtt2modbus import modbusMqttMsg
+from   flask             import Blueprint,request
+from   os.path           import exists
+from   mqtt2modbus       import mqtt2Modbus_ErrorStatus
+from   mqtt2modbus       import modbusMqttMsg
 from   installed_devices import installed_devices
-from   device_profiles import device_profiles
+from   device_profiles   import device_profiles
 import json
 import os
 import secrets
@@ -63,13 +63,20 @@ def sendCommand():
     else:
         return "Device Not Installed!"
 
+
+
     #Publish request using mqtt client created in app.py
     import app
     publish_result = app.mqtt_client.publish(os.getenv('MODBUS_CMD_TOPIC'), json.dumps(mqtt_command))
 
-    #Wait for replay to be received from mqtt_modbus_bridge
-    while(app.msgRxd != True):
-        time.sleep(0.005)
+    #Variable to track timeout timer
+    timeLeft = 5
+
+    #Wait for response to be received from mqtt_modbus_bridge
+    while((app.msgRxd != True) and (timeLeft != 0)):
+        time.sleep(0.035)
+        timeLeft-=1
+
 
     #Wait for message to be received before returning response
     if(app.msgRxd == True):
