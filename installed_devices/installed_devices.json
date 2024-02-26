@@ -11,7 +11,7 @@
             "deviceModel":"Relay_1CH_RTU",
             "devDescription": "Single Channel Modbus RTU Relay",
             "devId":"af9012a2",
-            "devAdd":1
+            "devAdd":3
         }
     ]
 }
