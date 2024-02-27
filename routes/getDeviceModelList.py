@@ -19,17 +19,18 @@ def getDeviceProfileList():
     for device in deviceProfileList:
         
         try:
-            #Open json file->path as environment variable
-            deviceProfileFile = open(os.getenv('DEVICE_PROFILES_FOLDER_PATH')+'/'+device)
+            if(device.__contains__(".json")):
+                #Open json file->path as environment variable
+                deviceProfileFile = open(os.getenv('DEVICE_PROFILES_FOLDER_PATH')+'/'+device)
 
-            #Convert to dictionary
-            deviceProfileDict = json.load(deviceProfileFile)
+                #Convert to dictionary
+                deviceProfileDict = json.load(deviceProfileFile)
 
-            #Add device device model and device description to response
-            response["deviceProfiles"].append({"Model":deviceProfileDict["deviceModel"],"desc":deviceProfileDict["devDescription"]})
+                #Add device device model and device description to response
+                response["deviceProfiles"].append({"Model":deviceProfileDict["deviceModel"],"desc":deviceProfileDict["devDescription"]})
 
-            #Close file
-            deviceProfileFile.close()
+                #Close file
+                deviceProfileFile.close()
         except:
             print("Failed to open device profile!")
 

@@ -2,8 +2,8 @@ from   flask             import Blueprint,request
 from   os.path           import exists
 from   mqtt2modbus       import mqtt2Modbus_ErrorStatus
 from   mqtt2modbus       import modbusMqttMsg
-from   installed_devices import installed_devices
-from   device_profiles   import device_profiles
+from   installed_devices.src import installed_devices
+from   device_profiles.src   import device_profiles
 import json
 import os
 import secrets
