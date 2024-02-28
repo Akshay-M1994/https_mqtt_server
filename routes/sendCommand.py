@@ -39,13 +39,14 @@ def sendCommand():
     if(device != None):
 
         deviceProfile = device_profiles.isDeviceProfilePresent(device["deviceModel"])
-
+      
         if(deviceProfile != None):
+            
+            cmd = isCommandValid(deviceProfile,json_command_parameters["cmdName"])
+            print(cmd)
+            if(cmd != None):
 
-            for cmd in deviceProfile["cmdList"]:
-                if cmd["cmdName"] == json_command_parameters["cmdName"]:
-        
-                    mqtt_command = modbusMqttMsg.CreateMsg(
+                mqtt_command = modbusMqttMsg.CreateMsg(
                                                             cmd["cmdName"],
                                                             secrets.token_hex(4),
                                                             device["devId"],
@@ -56,8 +57,9 @@ def sendCommand():
                                                             cmd["regCount"],
                                                             json_command_parameters["regData"] if cmd["cmdType"] == "W" else cmd["regData"],
                                                             mqtt2Modbus_ErrorStatus.RESULT_UNKNOWN.value
-                                                          )
-                    break
+                                                      )
+            else:
+                return "Command is not part of devices command set"
         else:
             return "Device Profile Not Found!"
     else:
@@ -74,7 +76,7 @@ def sendCommand():
 
     #Wait for response to be received from mqtt_modbus_bridge
     while((app.msgRxd != True) and (timeLeft != 0)):
-        time.sleep(0.035)
+        time.sleep(0.055)
         timeLeft-=1
 
 
@@ -85,3 +87,8 @@ def sendCommand():
     
     return "None"
 
+def isCommandValid(deviceProfile:dict,cmdName:str)->dict|None:
+    for cmd in deviceProfile["cmdList"]:
+        if cmd["cmdName"] == cmdName:
+            return cmd
+    return None
