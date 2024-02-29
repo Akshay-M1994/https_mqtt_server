@@ -1,5 +1,6 @@
 from   flask    import Blueprint
 from   os.path  import exists
+from   debug_nid import debug
 import json
 import os
 
@@ -32,6 +33,6 @@ def getDeviceProfileList():
                 #Close file
                 deviceProfileFile.close()
         except:
-            print("Failed to open device profile!")
+            debug.logging.debug("Failed to open device profile!")
 
     return json.dumps(response)
