@@ -12,6 +12,12 @@
             "devDescription": "Single Channel Modbus RTU Relay",
             "devId":"af9012a2",
             "devAdd":3
+        },
+        {
+            "deviceModel":"TM-RS485",
+            "devDescription": "Modbus Temperature & Humidity Sensor",
+            "devId":"af9012a3",
+            "devAdd":2
         }
     ]
 }

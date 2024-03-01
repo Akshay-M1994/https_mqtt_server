@@ -1,0 +1,14 @@
+{
+    "deviceModel":"TM-RS485",
+    "devDescription": "Modbus Temperature & Humidity Sensor",
+    "cmdList": [
+      {
+        "cmdName": "GetTemperature&Humidity",
+        "modfunc": 3,
+        "regAdd": 0,
+        "regCount": 2,
+        "regData": [],
+        "cmdType": "R"
+      }
+    ]
+  }
