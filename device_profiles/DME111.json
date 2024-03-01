@@ -7,7 +7,7 @@
       "modfunc": 3,
       "regAdd": 6687,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -15,7 +15,7 @@
       "modfunc": 3,
       "regAdd": 6697,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -23,7 +23,7 @@
       "modfunc": 3,
       "regAdd": 6691,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -31,7 +31,7 @@
       "modfunc": 3,
       "regAdd": 6702,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -39,7 +39,7 @@
       "modfunc": 3,
       "regAdd": 1,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -47,7 +47,7 @@
       "modfunc": 3,
       "regAdd": 7,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -55,7 +55,7 @@
       "modfunc": 3,
       "regAdd": 19,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -63,7 +63,7 @@
       "modfunc": 3,
       "regAdd": 25,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -71,7 +71,7 @@
       "modfunc": 3,
       "regAdd": 37,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -79,7 +79,7 @@
       "modfunc": 3,
       "regAdd": 49,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -87,7 +87,7 @@
       "modfunc": 3,
       "regAdd": 7679,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -95,7 +95,7 @@
       "modfunc": 3,
       "regAdd": 7681,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -103,7 +103,7 @@
       "modfunc": 3,
       "regAdd": 2065,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -111,7 +111,7 @@
       "modfunc": 3,
       "regAdd": 2577,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     },
     {
@@ -119,7 +119,7 @@
       "modfunc": 3,
       "regAdd": 8719,
       "regCount": 2,
-      "regData": "N/A",
+      "regData": 0,
       "cmdType": "R"
     }
   ]
