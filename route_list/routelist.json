@@ -17,10 +17,36 @@
                      "requestURL":"http://serverAddress:serverPort/profileList"
                     },
                     {
-                     "routeName":"sendcmd",
+                     "routeName":"sendCommand",
                      "description":"Used to send commands to a modbus device",
                      "requestURL":"http://serverAddress:serverPort/sendcmd",
-                     "Request Body(Json)":{"cmdName":"cmd", "devId":"30f1ae2f", "regData":[]}
+                     "Request Body(Json)":
+                     {
+                        "cmdName":"CommandName", 
+                        "devId":"30f1ae2f", 
+                        "regData":[]
+                     }
+                    },
+                    {
+                     "routeName":"addDeviceProfile",
+                     "description":"Add a new device type",
+                     "requestURL":"http://serverAddress:serverPort/addDeviceProfile",
+                     "Request Body(Json)":
+                     {
+                        "deviceModel":"<Insert Device Name Here>",
+                        "devDescription": "<Brief Device Description Here>",
+                        "deviceWebsite":"http://deviceWebsite.com",
+                        "cmdList": [
+                          {
+                            "cmdName": "CommandName",
+                            "modfunc": 5,
+                            "regAdd": 0,
+                            "regCount": 1,
+                            "regData": 1,
+                            "cmdType": "WF/W/R"
+                          }
+                        ]
+                      }
                     }
                 ]
  }

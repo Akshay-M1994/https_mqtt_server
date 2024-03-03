@@ -4,7 +4,7 @@ from   flask       import Flask, request
 from   dotenv      import load_dotenv
 from   enum        import Enum
 from   mqtt2modbus import mqtt2Modbus_ErrorStatus
-from   routes      import help,getCommands,getDeviceModelList,sendCommand
+from   routes      import help,getCommands,getDeviceModelList,sendCommand,addDeviceProfile,installDevice
 from   debug_nid   import debug
 import os,binascii
 import secrets
@@ -43,6 +43,8 @@ app.register_blueprint(help.help_bp)
 app.register_blueprint(getCommands.getCommands_bp)
 app.register_blueprint(getDeviceModelList.getDeviceModelList_bp)
 app.register_blueprint(sendCommand.sendCommand_bp)
+app.register_blueprint(addDeviceProfile.addDeviceProfile_bp)
+app.register_blueprint(installDevice.installDevice_bp)
 
 
 app.config['MQTT_BROKER_URL'] = '192.168.1.100'     # IP Address of MQTT broker
